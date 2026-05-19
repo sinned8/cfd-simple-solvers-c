@@ -1,0 +1,35 @@
+# Build folders
+cmake-build-debug/
+cmake-build-release/
+build/
+
+# Compiled files
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.lib
+*.dll
+
+# Python virtual environment
+.venv/
+venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# Generated solver outputs
+outputs/*
+!outputs/.gitkeep
+src/troubleshootinputs.txt
+# IDE/editor files
+.idea/
+.vscode/
+
+# OS-specific junk
+.DS_Store
+Thumbs.db

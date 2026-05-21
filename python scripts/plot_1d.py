@@ -4,7 +4,7 @@ import matplotlib.animation as animation
 import numpy
 import pandas as pd
 
-#maybe have switch case statement here that evals for each different solver
+
 
 
 csv_file = sys.argv[1]
@@ -18,13 +18,7 @@ dt = float(sys.argv[3])
 
 if solver_type == 'l':
     data = pd.read_csv(csv_file, header=None)
-    # u = dataframe.to_numpy().ravel()
-    # x = numpy.linspace(0, 2, len(u))
-    # plt.xlabel("x")
-    # plt.plot(x, u, marker="o", markersize=5, label="Computational",color="C0")
-    # plt.title("1D Linear Convection")
-    # plt.grid(True)
-    # plt.show()
+
 
     nx = data.shape[1]
     x = numpy.arange(nx)
@@ -41,7 +35,7 @@ if solver_type == 'l':
         line.set_ydata(data.iloc[frame])
 
         current_time = frame * dt
-        ax.set_title(f"1D Burgers Equation | t = {current_time:.4f}")
+        ax.set_title(f"1D Linear Convection | t = {current_time:.4f}")
 
         return line,
 

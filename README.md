@@ -7,8 +7,8 @@ This project is inspired by the Barba Group CFD Python lessons, but the goal is 
 ## Current Features
 
 - Menu-driven terminal interface
-- 1D linear convection solver
-- 1D Burgers' equation solver
+- 1D linear convection solver - animated
+- 1D Burgers' equation solver - animated
 - Basic grid and memory utilities
 - CSV output from C
 - Python plotting from generated CSV data

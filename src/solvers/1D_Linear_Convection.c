@@ -17,7 +17,7 @@ void runLinearConvection(int gridSize, int timeSteps, double deltaT)
     double *u = allocate_1d_array(gridSize);
     double *un = allocate_1d_array(gridSize);
 
-    // set u = 2 between 0.5 and 1
+    // set u = 2 between 0.5 and 1 per our ICs
     for (int i = 0; i < gridSize; i++)
     {
         if ( n1 < i && i <= n2 )
@@ -27,7 +27,11 @@ void runLinearConvection(int gridSize, int timeSteps, double deltaT)
         else u[i]=1;
     }
 
+    //plotting u(x) at t=0 w/ ICs
+    generate_1d_csv(u,gridSize);
 
+
+    // FD numerical scheme FwD in time and BwD in space
     for (int n = 0; n < timeSteps; n++)
     {
         un = copy_1d_array(u,un,gridSize);
@@ -35,11 +39,13 @@ void runLinearConvection(int gridSize, int timeSteps, double deltaT)
         {
             u[i] =  un[i] - (c * deltaT/dx) * (un[i] - un[i-1]);
         }
+        // just plotting every time step since its a basic simulation / not much data
+        write_1d_row(u,gridSize);
     }
-    generate_1d_csv(u,gridSize);
+
     const char *output = "outputs/output.csv";
     printf("Writing to file: %s\n", output);
-    plot1d_csv(output,solverType);
+    plot1d_csv(output,solverType,deltaT);
 
     free(u);
     free(un);

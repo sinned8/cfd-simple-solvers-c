@@ -6,6 +6,9 @@
 //some func to generate csv from array for 1d stuff
 void generate_1d_csv(const double *u, int n);
 
-void plot1d_csv(const char * filename,char solverType);
+// writes a new row so we can animate
+void write_1d_row(const double *u, int n);
+
+void plot1d_csv(const char * filename,char solverType,double dt);
 
 #endif

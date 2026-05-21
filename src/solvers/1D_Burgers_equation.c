@@ -39,26 +39,35 @@ void run1DBurgersEquation(int nx, int nt,double vis)
         u[i] = burgersNumFunc(x,0.0,vis);
     }
 
+    //filling csv with u(x) at t = 0 per our IC
+    generate_1d_csv(u,nx);
+
+
     //finite difference loop: fwd in time central d in space along with periodic boundary conditions
     for (int n = 0; n < nt; n++)
     {
         un = copy_1d_array(u,un,nx);
 
-        for (int i = 0; i < nx-1; i++)
+        for (int i = 1; i < nx-1; i++)
         {
             u[i] = un[i] - un[i] * (dt / dx) * (un[i] - un[i-1]) + vis * (dt / pow(dx,2))
             * (un[i+1] - 2 * un[i] + un[i-1]);
         }
         u[0] = un[0] - un[0] * (dt / dx) * (un[0] - un[nx-2]) + vis * (dt / pow(dx,2)) * (un[1] - 2 * un[0] + un[nx-2]);
         u[nx-1] = u[0];
+
+
+        //updating csv with u(x) at each 2nd time step
+        if (n % 2 == 0)
+        {
+            write_1d_row(u,nx);
+        }
+
     }
 
-
-
-    generate_1d_csv(u,nx);
     const char *output = "outputs/output.csv";
     printf("Writing to file: %s\n", output);
-    plot1d_csv(output,solverType);
+    plot1d_csv(output,solverType,dt);
 
     free(u);
     free(un);

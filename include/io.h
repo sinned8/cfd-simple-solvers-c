@@ -11,4 +11,11 @@ void write_1d_row(const double *u, int n);
 
 void plot1d_csv(const char * filename,char solverType,double dt);
 
+void generate_2d_pressure_iteration_csv(double **p, int ny, int nx,int frame_number);
+
+void plot2d_csv(char solverType);
+
+void clear_2d_pressure_iteration_folder();
+
+
 #endif

@@ -25,6 +25,9 @@ __pycache__/
 # Generated solver outputs
 outputs/*
 !outputs/.gitkeep
+!outputs/pressure_iterations/
+outputs/pressure_iterations/*
+!outputs/pressure_iterations/.gitkeep
 src/troubleshootinputs.txt
 # IDE/editor files
 .idea/

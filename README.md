@@ -9,39 +9,12 @@ This project is inspired by the Barba Group CFD Python lessons, but the goal is 
 - Menu-driven terminal interface
 - 1D linear convection solver - animated
 - 1D Burgers' equation solver - animated
+- 2D Poisson equation solver - animated
 - Basic grid and memory utilities
 - CSV output from C
 - Python plotting from generated CSV data
 - Solver-specific plot formatting
 
-## Project Structure
-
-```text
-Simple Solvers in C - Summer 2026/
-│
-├── include/
-│   ├── grid.h
-│   ├── io.h
-│   └── solvers.h
-│
-├── src/
-│   ├── main.c
-│   ├── grid.c
-│   ├── io.c
-│   └── solvers/
-│       ├── 1DLinear Convection.c
-│       └── 1D Burgers equation.c
-│
-├── outputs/
-│   └── .gitkeep
-│
-├── python scripts/
-│   └── plot_1d.py
-│
-├── CMakeLists.txt
-├── .gitignore
-└── README.md
-```
 
 ## Implemented Solvers
 
@@ -56,6 +29,14 @@ Uses a finite difference method with:
 - nonlinear convection
 - diffusion/viscosity
 - periodic boundary conditions
+
+### 2D Poisson Equation
+
+Uses a finite difference method to solve for a pressure-like scalar field in a 2D domain.
+
+Unlike the 1D solvers, this is not a time-marching wave problem. The solution is found iteratively by updating each grid point using its neighboring values and the source term.
+
+The result shows a smooth pressure surface with high-pressure and low-pressure regions caused by the source term.
 
 ## Requirements
 
@@ -84,13 +65,21 @@ The program displays a solver menu:
 
 1) 1D Linear Convection
 2) 1D Burgers' Equation
+3) 2D Poisson Equation
 ```
 
-After a solver is selected, the program runs the simulation, writes the final result to:
+For 1D solvers, the program runs the simulation and writes the final result to:
 
 ```text
 outputs/output.csv
 ```
+
+For 2D Solvers, depending on the type, the simulation is ran and the output per iteration is stored in files like "pressure_iterations" 
+```text
+outputs/pressure_iterations/p_0001.csv
+```
+Where p_0001.csv would denote the first iteration ran.
+
 
 Then the Python plotting script displays the solution.
 
@@ -102,6 +91,7 @@ Examples:
 
 - Linear convection is plotted over `[0, 2]`
 - Burgers' equation is plotted over `[0, 2π]`
+- 2D Poisson equation is plotted over `[0, 2]` for x and `[0, 1]` for y
 
 ## Planned Improvements
 

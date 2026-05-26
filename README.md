@@ -10,6 +10,7 @@ This project is inspired by the Barba Group CFD Python lessons, but the goal is 
 - 1D linear convection solver - animated
 - 1D Burgers' equation solver - animated
 - 2D Poisson equation solver - animated
+- 2D Lid-Driven Cavity flow solver - animated
 - Basic grid and memory utilities
 - CSV output from C
 - Python plotting from generated CSV data
@@ -37,6 +38,19 @@ Uses a finite difference method to solve for a pressure-like scalar field in a 2
 Unlike the 1D solvers, this is not a time-marching wave problem. The solution is found iteratively by updating each grid point using its neighboring values and the source term.
 
 The result shows a smooth pressure surface with high-pressure and low-pressure regions caused by the source term.
+
+### 2D Lid-Driven Cavity Flow
+
+Solves the incompressible 2D Navier-Stokes equations for a lid-driven cavity flow. The top boundary moves horizontally, while the remaining walls are stationary no-slip boundaries. The solver updates the horizontal velocity `u`, vertical velocity `v`, and pressure field `p` over time.
+
+The method uses finite differences with:
+
+- backward differences for the nonlinear convection terms
+- central differences for pressure gradients
+- central differences for diffusion terms
+- a pressure Poisson equation to enforce incompressibility
+
+The simulation saves pressure, `u` velocity, and `v` velocity fields to CSV files at each timestep. These outputs are then animated in Python using pressure contours with velocity streamlines to show the formation of the cavity vortex.
 
 ## Requirements
 
@@ -66,6 +80,7 @@ The program displays a solver menu:
 1) 1D Linear Convection
 2) 1D Burgers' Equation
 3) 2D Poisson Equation
+4) 2D Lid-Driven Cavity Flow with Navier-Stokes
 ```
 
 For 1D solvers, the program runs the simulation and writes the final result to:
@@ -92,6 +107,7 @@ Examples:
 - Linear convection is plotted over `[0, 2]`
 - Burgers' equation is plotted over `[0, 2π]`
 - 2D Poisson equation is plotted over `[0, 2]` for x and `[0, 1]` for y
+- 2D Lid-Driven Cavity Flow solver is plotted over `[0, 2]` for x and `[0, 1]` for y
 
 ## Planned Improvements
 

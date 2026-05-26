@@ -16,7 +16,6 @@ double *copy_1d_array( double *arraycp, double*arraypst, int n);
 
 double **copy_2d_array( double **arraycp,double **arraypst,int ny, int nx);
 
-void create_1d_grid(double *x, int nx, double xmin, double xmax);
 
 
 

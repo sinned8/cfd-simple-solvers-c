@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <solvers.h>
 
-int DEFAULT_GRID_SIZEX = 50 , DEFAULT_TIMESTEPS = 25 , DEFAULT_GRID_SIZEY = 50; // nx, nt
+int DEFAULT_GRID_SIZEX = 50 , DEFAULT_TIMESTEPS = 25 , DEFAULT_TIMESTEPS_NS = 500,DEFAULT_TIMESTEPS_PO = 100 , DEFAULT_GRID_SIZEY = 50; // nx, nt
 double DEFAULT_DELTA_T = 0.025, DEFAULT_VIS = 0.07; // delta t , viscosity(nu)
 
 // maybe include default wave speed and viscosity constants
@@ -24,6 +24,7 @@ int main()
            "\n1) 1D Linear Convection"
            "\n2) 1D Burgers' Equation"
            "\n3) 2D Poisson Equation"
+           "\n4) 2D Cavity Flow with Navier-Stokes"
            "\nSelection... ");
     scanf("%d", &choice);
     getchar();
@@ -94,7 +95,7 @@ void solverSelector(int c)
             printf("\nWould you like parameters different than the defaults of:"
                    "\nGRID SIZE X: 50"
                    "\nGRID SIZE Y: 50"
-                   "\nTIME STEPS: 25"
+                   "\nTIME STEPS: 100"
                    "\n(Y/N): ");
             scanf("%c", &choice);
             getchar();
@@ -108,7 +109,34 @@ void solverSelector(int c)
                 scanf("%d", &timeSteps);
                 run2DPoissonEquation(gridSizeX, gridSizey, timeSteps);
             }
-            else run2DPoissonEquation(DEFAULT_GRID_SIZEX, DEFAULT_GRID_SIZEY, DEFAULT_TIMESTEPS);
+            else run2DPoissonEquation(DEFAULT_GRID_SIZEX, DEFAULT_GRID_SIZEY, DEFAULT_TIMESTEPS_PO);
+        case 4:
+            printf("\n\t2D Cavity Flow with Navier-Stokes has been selected.");
+
+            printf("\nWould you like parameters different than the defaults of:"
+                   "\nGRID SIZE X: 50"
+                   "\nGRID SIZE Y: 50"
+                   "\nTIME STEPS: 500"
+                   "\n(Y/N): ");
+            scanf("%c", &choice);
+            getchar();
+            if (choice == 'Y' || choice == 'y')
+            {
+                printf("\nEnter the grid size x: ");
+                scanf("%d", &gridSizeX);
+                printf("\nEnter the grid size y: ");
+                scanf("%d", &gridSizey);
+                printf("\nEnter the time steps: ");
+                scanf("%d", &timeSteps);
+                run2DCavityFlow(gridSizeX, gridSizey, timeSteps);
+                printf("\nProcessing...");
+            }
+            else
+            {
+                printf("\nProcessing...");
+                run2DCavityFlow(DEFAULT_GRID_SIZEX, DEFAULT_GRID_SIZEY, DEFAULT_TIMESTEPS_NS);
+            }
+
 
 
             default:

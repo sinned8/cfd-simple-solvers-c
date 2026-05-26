@@ -33,7 +33,7 @@ void run2DPoissonEquation(int nx, int ny,int nt)
         {
             for (int j = 1; j < nx - 1; j++)
             {
-                p[i][j] = ( ( ((pd[i+1][j] + pd[i-1][j]) * pow(dy,2)) + ((pd[i][j+1] + pd[i][j-1]) * pow(dx,2))
+                p[i][j] = ( ( ((pd[i][j+1] + pd[i][j-1]) * pow(dy,2)) + ((pd[i+1][j] + pd[i-1][j]) * pow(dx,2))
                     - (b[i][j] * pow(dx,2) * pow(dy,2) ))
                     / (2 * (pow(dx,2) + pow(dy,2) ) ));
             }

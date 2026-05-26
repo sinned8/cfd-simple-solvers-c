@@ -24,11 +24,24 @@ __pycache__/
 
 # Generated solver outputs
 outputs/*
-!outputs/.gitkeep
+
+# Keep output folder structure
 !outputs/pressure_iterations/
 outputs/pressure_iterations/*
 !outputs/pressure_iterations/.gitkeep
+
+!outputs/u_velocity_iterations/
+outputs/u_velocity_iterations/*
+!outputs/u_velocity_iterations/.gitkeep
+
+!outputs/v_velocity_iterations/
+outputs/v_velocity_iterations/*
+!outputs/v_velocity_iterations/.gitkeep
+
+# Other ignored files
 src/troubleshootinputs.txt
+
+
 # IDE/editor files
 .idea/
 .vscode/

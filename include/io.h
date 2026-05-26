@@ -17,5 +17,11 @@ void plot2d_csv(char solverType);
 
 void clear_2d_pressure_iteration_folder();
 
+void generate_2d_u_velocity_csv( double **u, int ny, int nx, int frame_number);
 
+void generate_2d_v_velocity_csv( double **v, int ny, int nx, int frame_number);
+
+void clear_2d_u_velocity_folder();
+
+void clear_2d_v_velocity_folder();
 #endif

@@ -109,7 +109,7 @@ void plot2d_csv(char solverType)
 {
     char command[512];
 
-    // command to run plot_1d.py and transfer over necessary variables from animation plotting
+    // command to run plot_2d.py and transfer over necessary variables from animation plotting
     snprintf(command, sizeof(command),
              ".venv\\Scripts\\python.exe \"python scripts\\plot_2d.py\" \"%c\""
              ,solverType);
@@ -123,6 +123,8 @@ void plot2d_csv(char solverType)
         printf("Error: Python plotting script failed.\n");
     }
 }
+
+
 void clear_2d_pressure_iteration_folder()
 {
     char filename[128];
@@ -130,6 +132,90 @@ void clear_2d_pressure_iteration_folder()
     for (int k = 0; k < 10000; k++) {
         snprintf(filename, sizeof(filename),
                  "outputs/pressure_iterations/p_%04d.csv", k);
+
+        remove(filename);
+    }
+}
+
+void generate_2d_u_velocity_csv( double **u, int ny, int nx, int frame_number)
+{
+    // making the file name correspond to which pressure iteration it's logging
+    // e.g u_0001 would be the velocity in the u direction for the first iteration u_0050 would be
+    // the velocity ion the u direction for the 50th iteration
+    char filename[100];
+    snprintf(filename, sizeof(filename),
+             "outputs/u_velocity_iterations/u_%04d.csv", frame_number);
+
+    FILE *fp = fopen(filename, "w");
+    if (fp == NULL)
+    {
+        printf("Error opening file.\n");
+        return;
+    }
+    for (int j = 0; j < ny; j++) {
+        for (int i = 0; i < nx; i++) {
+            fprintf(fp, "%lf", u[j][i]);
+
+            if (i < nx - 1) {
+                fprintf(fp, ",");
+            }
+        }
+
+        fprintf(fp, "\n");
+    }
+
+    fclose(fp);
+}
+
+void generate_2d_v_velocity_csv( double **v, int ny, int nx, int frame_number)
+{
+    // making the file name correspond to which pressure iteration it's logging
+    // e.g v_0001 would be the velocity in the v direction for the first iteration v_0050 would be
+    // the velocity ion the v direction for the 50th iteration
+    char filename[100];
+    snprintf(filename, sizeof(filename),
+             "outputs/v_velocity_iterations/v_%04d.csv", frame_number);
+
+    FILE *fp = fopen(filename, "w");
+    if (fp == NULL)
+    {
+        printf("Error opening file.\n");
+        return;
+    }
+    for (int j = 0; j < ny; j++) {
+        for (int i = 0; i < nx; i++) {
+            fprintf(fp, "%lf", v[j][i]);
+
+            if (i < nx - 1) {
+                fprintf(fp, ",");
+            }
+        }
+
+        fprintf(fp, "\n");
+    }
+
+    fclose(fp);
+}
+
+void clear_2d_u_velocity_folder()
+{
+    char filename[128];
+
+    for (int k = 0; k < 10000; k++) {
+        snprintf(filename, sizeof(filename),
+                 "outputs/u_velocity_iterations/u_%04d.csv", k);
+
+        remove(filename);
+    }
+}
+
+void clear_2d_v_velocity_folder()
+{
+    char filename[128];
+
+    for (int k = 0; k < 10000; k++) {
+        snprintf(filename, sizeof(filename),
+                 "outputs/v_velocity_iterations/v_%04d.csv", k);
 
         remove(filename);
     }

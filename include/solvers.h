@@ -7,4 +7,6 @@ void run1DBurgersEquation(int nx, int nt,double vis);
 
 void run2DPoissonEquation(int nx, int ny,int nt);
 
+void run2DCavityFlow(int nx, int ny,int nt);
+
 #endif

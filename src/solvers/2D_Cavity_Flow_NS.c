@@ -1,7 +1,6 @@
 #include <solvers.h>
 #include "grid.h"
 #include <math.h>
-
 #include "io.h"
 
 
@@ -108,8 +107,8 @@ double **bracketDiscretizedPressurePoisson(double **b,double rho, double dt,
                                         double **u,double **v,double dx,double dy,
                                         int nx,int ny)
 {
-
     for (int i=1; i<ny - 1; i++)
+    {
         for (int j=1; j<nx - 1; j++)
         {
             b[i][j] = rho * (1/dt * ( (u[i][j+1] - u[i][j-1]) / (2 * dx) +
@@ -118,6 +117,8 @@ double **bracketDiscretizedPressurePoisson(double **b,double rho, double dt,
                             - 2 * ((u[i+1][j] - u[i-1][j]) / (2 * dy) * (v[i][j+1] - v[i][j-1]) / (2 * dx))
                             - (pow(((v[i+1][j] - v[i-1][j] ) / (2 * dy)) ,2)));
         }
+    }
+
     return b;
 }
 
@@ -159,5 +160,6 @@ double **pressurePoisson(double **p,double ** b, const double dx, const double d
 
 
     }
+    free_2d_array(pn,ny);
     return p;
 }

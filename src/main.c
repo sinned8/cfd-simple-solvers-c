@@ -24,7 +24,8 @@ int main()
            "\n1) 1D Linear Convection"
            "\n2) 1D Burgers' Equation"
            "\n3) 2D Poisson Equation"
-           "\n4) 2D Cavity Flow with Navier-Stokes"
+           "\n4) 2D Lid-Driven Cavity Flow with Navier-Stokes"
+           "\n5) 2D Channel Flow with Navier-Stokes"
            "\nSelection... ");
     scanf("%d", &choice);
     getchar();
@@ -111,7 +112,7 @@ void solverSelector(int c)
             }
             else run2DPoissonEquation(DEFAULT_GRID_SIZEX, DEFAULT_GRID_SIZEY, DEFAULT_TIMESTEPS_PO);
         case 4:
-            printf("\n\t2D Cavity Flow with Navier-Stokes has been selected.");
+            printf("\n\t2D Lid-Driven Cavity Flow with Navier-Stokes has been selected.");
 
             printf("\nWould you like parameters different than the defaults of:"
                    "\nGRID SIZE X: 50"
@@ -137,7 +138,32 @@ void solverSelector(int c)
                 run2DCavityFlow(DEFAULT_GRID_SIZEX, DEFAULT_GRID_SIZEY, DEFAULT_TIMESTEPS_NS);
             }
 
+        case 5:
+            printf("\n\t2D Channel Flow with Navier-Stokes has been selected.");
 
+            printf("\nWould you like parameters different than the defaults of:"
+                   "\nGRID SIZE X: 50"
+                   "\nGRID SIZE Y: 50"
+                   "\nTIME STEPS: 50"
+                   "\n(Y/N): ");
+            scanf("%c", &choice);
+            getchar();
+            if (choice == 'Y' || choice == 'y')
+            {
+                printf("\nEnter the grid size x: ");
+                scanf("%d", &gridSizeX);
+                printf("\nEnter the grid size y: ");
+                scanf("%d", &gridSizey);
+                printf("\nEnter the time steps: ");
+                scanf("%d", &timeSteps);
+                run2DChannelFlow(gridSizeX, gridSizey, timeSteps);
+                printf("\nProcessing...");
+            }
+            else
+            {
+                printf("\nProcessing...");
+                run2DChannelFlow(DEFAULT_GRID_SIZEX, DEFAULT_GRID_SIZEY, DEFAULT_TIMESTEPS_NS);
+            }
 
             default:
                 break;

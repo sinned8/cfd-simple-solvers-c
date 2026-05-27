@@ -102,7 +102,7 @@ elif solver_type == 'C':
     filled_levels = np.linspace(p_min, p_max, 30)
     line_levels = np.linspace(p_min, p_max, 10)
 
-    fig, ax = plt.subplots(figsize=(9, 7), dpi=100)
+    fig, ax = plt.subplots(figsize=(11, 7), dpi=100)
 
     norm = colors.Normalize(vmin=p_min, vmax=p_max)
     sm = cm.ScalarMappable(norm=norm, cmap="viridis")
@@ -148,5 +148,55 @@ elif solver_type == 'C':
 
     plt.show()
 
+elif solver_type == 'H':
+    p_files = sorted(glob.glob("outputs/pressure_iterations/p_*.csv"))
+    u_files = sorted(glob.glob("outputs/u_velocity_iterations/u_*.csv"))
+    v_files = sorted(glob.glob("outputs/v_velocity_iterations/v_*.csv"))
 
+    u0 = np.loadtxt(u_files[0], delimiter=",")
+    ny, nx = u0.shape
 
+    x = np.linspace(0, 2, nx)
+    y = np.linspace(0, 2, ny)
+    X, Y = np.meshgrid(x, y)
+
+    fig, ax = plt.subplots(figsize=(11, 7), dpi=100)
+
+    skip = 2
+
+    def update(frame):
+        ax.clear()
+
+        u = np.loadtxt(u_files[frame], delimiter=",")
+        v = np.loadtxt(v_files[frame], delimiter=",")
+
+        speed = np.sqrt(u**2 + v**2)
+
+        ax.imshow(
+            u,
+            extent=[0, 2, 0, 2],
+            origin="lower",
+            aspect="equal"
+        )
+
+        ax.quiver(
+            X[::skip, ::skip],
+            Y[::skip, ::skip],
+            u[::skip, ::skip],
+            v[::skip, ::skip]
+        )
+
+        ax.set_title(f"2D Channel Flow: u-velocity | Frame: {frame}")
+        ax.set_xlabel("x")
+        ax.set_ylabel("y")
+        ax.set_xlim(0, 2)
+        ax.set_ylim(0, 2)
+
+    ani = FuncAnimation(
+        fig,
+        update,
+        frames=len(u_files),
+        interval=100
+    )
+
+    plt.show()

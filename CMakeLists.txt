@@ -18,4 +18,5 @@ add_executable(Simple_Solvers_in_C____Summer_2026_Project
         "src/solvers/1D_Linear_Convection.c"
         src/solvers/2D_Poisson.c
         src/solvers/2D_Cavity_Flow_NS.c
+        src/solvers/2D_Channel_Flow_NS.c
 )

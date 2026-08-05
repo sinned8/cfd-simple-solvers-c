@@ -54,7 +54,6 @@ double **copy_2d_array( double **arraycp,double **arraypst,int ny, int nx)
 {
         for (int i = 0; i < ny; i++)
         {
-            arraypst[i] = malloc(nx * sizeof(double));
             memcpy(arraypst[i],arraycp[i],nx * sizeof(double));
         }
     return arraypst;

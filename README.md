@@ -125,8 +125,8 @@ Examples:
 - Linear convection is plotted over `[0, 2]`
 - Burgers' equation is plotted over `[0, 2π]`
 - 2D Poisson equation is plotted over `[0, 2]` for x and `[0, 1]` for y
-- 2D Lid-Driven Cavity Flow solver is plotted over `[0, 2]` for x and `[0, 1]` for y
-- 2D Channel Flow solver is plotted over `[0, 2]` for x and `[0, 1]` for y
+- 2D Lid-Driven Cavity Flow solver is plotted over `[0, 2]` for x and `[0, 2]` for y
+- 2D Channel Flow solver is plotted over `[0, 2]` for x and `[0, 2]` for y
 
 ## Planned Improvements
 

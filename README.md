@@ -12,7 +12,7 @@ This project is inspired by the Barba Group CFD Python lessons, but the goal is 
 - 2D Poisson equation solver - animated
 - 2D Lid-Driven Cavity flow solver - animated
 - 2D Channel Flow solver - animated 
-- Grid Refinement Study for 2D Lid-Drive Cavity flow
+- Grid Refinement Study for 2D Lid-Driven Cavity flow
 - Basic grid and memory utilities
 - CSV output from C
 - Python plotting from generated CSV data

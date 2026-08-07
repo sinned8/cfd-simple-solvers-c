@@ -104,7 +104,7 @@ ${\left|\dfrac{f_3 - f_2}{f_2 - f_1}\right|}{\approx1.836}$
 and therefore the observed order is approximately:
 $p\approx0.88$
 
-Since the convection and time stepping component I used are 1st order accurate the observed order is reasonable close to the expected order.
+Since the convection and time stepping component I used are 1st order accurate the observed order is reasonably close to the expected order.
 
 
 ## Requirements

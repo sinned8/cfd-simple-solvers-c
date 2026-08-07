@@ -12,6 +12,7 @@ This project is inspired by the Barba Group CFD Python lessons, but the goal is 
 - 2D Poisson equation solver - animated
 - 2D Lid-Driven Cavity flow solver - animated
 - 2D Channel Flow solver - animated 
+- Grid Refinement Study for 2D Lid-Drive Cavity flow
 - Basic grid and memory utilities
 - CSV output from C
 - Python plotting from generated CSV data
@@ -68,6 +69,43 @@ Main features:
 - Python visualization for velocity magnitude and vector fields
 
 This solver represents flow through a horizontal channel where the fluid is pushed forward by a constant body force while viscosity and wall boundaries shape the velocity profile.
+
+## Grid Refinement Study
+The grid-refinement study runs the cavity solver on three uniformly refined grids:
+
+- 41x41
+
+- 81x81
+
+- 161x161
+
+With grid spacings of 0.0500, 0.0250, 0.0125 respectively.
+
+The refinement ration is r = 2 and the measured quantity is the horizontal velocity at x = 1.0 and y = 0.5
+
+The observed order is calculated using:
+
+$p=\frac{\ln\left|\dfrac{f_3 - f_2}{f_2 - f_1}\right|}{\ln(r)}$
+
+where $f_3$ is the coarse grid result, $f_2$ is the fine grid result, and $f_1$ is the fine grid result.
+
+### Current GRS Results
+Using a shared time step value of 0.00025:
+
+| Grid Size | u(1.0,0.5) |
+|-----------|:----------:|
+| 41x41     | -0.117460  |
+| 81x81     | -0.117047  |
+| 161x161   | -0.116822  |
+
+The resulting refinement ratio is:
+${\left|\dfrac{f_3 - f_2}{f_2 - f_1}\right|}{\approx1.836}$
+
+and therefore the observed order is approximately:
+$p\approx0.88$
+
+Since the convection and time stepping component I used are 1st order accurate the observed order is reasonable close to the expected order.
+
 
 ## Requirements
 

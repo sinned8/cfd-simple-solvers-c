@@ -144,78 +144,84 @@ double run2DCavityFlow(int nx, int ny,int nt, bool GRS)
         free_2d_array(pn,ny);
         return fval;
     }
-    else
+
+    if (!GRS)
     {
         for (int n = 0; n < nt; n++)
         {
             copy_2d_array(u,un,ny,nx);
-            copy_2d_array(v,vn,ny,nx);
+           copy_2d_array(v,vn,ny,nx);
 
-            b = bracketDiscretizedPressurePoisson(b,rho,dt,u,v,dx,dy,nx,ny);
-            p = pressurePoisson(p,pn,b,dx,dy,nx,ny);
+           b = bracketDiscretizedPressurePoisson(b,rho,dt,u,v,dx,dy,nx,ny);
+           p = pressurePoisson(p,pn,b,dx,dy,nx,ny);
 
-            //velo is stored in un & vn so when max_change = max(|uij- unij|, |vij - vnij|) is very small
-            //flow is relatively "steady" ( <10^-6 or smth)
-            for (int i=1; i<ny - 1; i++)
-            {
-                for (int j=1; j<nx - 1; j++)
-                {
-                    u[i][j] = (un[i][j] - (un[i][j] * (dt/dx) *(un[i][j] - un[i][j-1]))
-                                - (vn[i][j]* (dt/dy) *(un[i][j] - un[i-1][j]))
-                                - ((dt/ (2*rho*dx)) * (p[i][j+1] - p[i][j-1]) )
-                                + nu * ( (dt / dx2 ) * (un[i][j+1] - (2 * un[i][j]) + un[i][j-1] )
-                                + ((dt/dy2) * (un[i+1][j] - (2*un[i][j]) + un[i-1][j]) ) )  );
+           //velo is stored in un & vn so when max_change = max(|uij- unij|, |vij - vnij|) is very small
+           //flow is relatively "steady" ( <10^-6 or smth)
+           for (int i=1; i<ny - 1; i++)
+           {
+               for (int j=1; j<nx - 1; j++)
+               {
+                   u[i][j] = (un[i][j] - (un[i][j] * (dt/dx) *(un[i][j] - un[i][j-1]))
+                               - (vn[i][j]* (dt/dy) *(un[i][j] - un[i-1][j]))
+                               - ((dt/ (2*rho*dx)) * (p[i][j+1] - p[i][j-1]) )
+                               + nu * ( (dt / dx2 ) * (un[i][j+1] - (2 * un[i][j]) + un[i][j-1] )
+                               + ((dt/dy2) * (un[i+1][j] - (2*un[i][j]) + un[i-1][j]) ) )  );
 
-                    v[i][j] = (vn[i][j] - (un[i][j] * (dt/dx) *(vn[i][j] - vn[i][j-1]))
-                                - (vn[i][j] * (dt/dy) *(vn[i][j] - vn[i-1][j]))
-                                - ((dt/ (2*rho*dy)) * (p[i+1][j] - p[i-1][j]) )
-                                + nu * ( (dt / dx2 ) * (vn[i][j+1] - (2 * vn[i][j]) + vn[i][j-1] )
-                                + ((dt/dy2) * (vn[i+1][j] - (2*vn[i][j]) + vn[i-1][j]) ) ) );
+                   v[i][j] = (vn[i][j] - (un[i][j] * (dt/dx) *(vn[i][j] - vn[i][j-1]))
+                               - (vn[i][j] * (dt/dy) *(vn[i][j] - vn[i-1][j]))
+                               - ((dt/ (2*rho*dy)) * (p[i+1][j] - p[i-1][j]) )
+                               + nu * ( (dt / dx2 ) * (vn[i][j+1] - (2 * vn[i][j]) + vn[i][j-1] )
+                               + ((dt/dy2) * (vn[i+1][j] - (2*vn[i][j]) + vn[i-1][j]) ) ) );
 
-                }
-            }
+               }
+           }
 
-            // left and right walls
-            for (int i = 0; i < ny; i++)
-            {
-                u[i][0] = 0.0;
-                u[i][nx - 1] = 0.0;
+           // left and right walls
+           for (int i = 0; i < ny; i++)
+           {
+               u[i][0] = 0.0;
+               u[i][nx - 1] = 0.0;
 
-                v[i][0] = 0.0;
-                v[i][nx - 1] = 0.0;
-            }
+               v[i][0] = 0.0;
+               v[i][nx - 1] = 0.0;
+           }
 
-            // bottom wall and top lid
-            for (int j = 0; j < nx; j++)
-            {
-                u[0][j] = 0.0;
-                u[ny - 1][j] = 1.0;
+           // bottom wall and top lid
+           for (int j = 0; j < nx; j++)
+           {
+               u[0][j] = 0.0;
+               u[ny - 1][j] = 1.0;
 
-                v[0][j] = 0.0;
-                v[ny - 1][j] = 0.0;
-            }
+               v[0][j] = 0.0;
+               v[ny - 1][j] = 0.0;
+           }
 
-            //disable this if were doing a GRS, so func needs another var to say were doing a GRS
-            if (n % 20 == 0)
-            {
-                generate_2d_pressure_iteration_csv(p,ny,nx,frameNumber);
-                generate_2d_u_velocity_csv(u,ny,nx,frameNumber);
-                generate_2d_v_velocity_csv(v,ny,nx,frameNumber);
-                frameNumber++;
-            }
+           //disable this if were doing a GRS, so func needs another var to say were doing a GRS
+           if (n % 20 == 0)
+           {
+               generate_2d_pressure_iteration_csv(p,ny,nx,frameNumber);
+               generate_2d_u_velocity_csv(u,ny,nx,frameNumber);
+               generate_2d_v_velocity_csv(v,ny,nx,frameNumber);
+               frameNumber++;
+           }
+
+
         }
-        plot2d_csv(solverType);
+        free_2d_array(u,ny);
+        free_2d_array(v,ny);
+        free_2d_array(b,ny);
+        free_2d_array(p,ny);
+        free_2d_array(un,ny);
+        free_2d_array(vn,ny);
+        free_2d_array(pn,ny);
+
     }
 
 
-    free_2d_array(u,ny);
-    free_2d_array(v,ny);
-    free_2d_array(b,ny);
-    free_2d_array(p,ny);
-    free_2d_array(un,ny);
-    free_2d_array(vn,ny);
-    free_2d_array(pn,ny);
+    plot2d_csv(solverType);
     return 1;
+
+
 }
 
 

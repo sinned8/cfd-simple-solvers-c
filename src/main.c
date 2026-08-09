@@ -26,7 +26,7 @@ int main()
            "\n3) 2D Poisson Equation"
            "\n4) 2D Lid-Driven Cavity Flow with Navier-Stokes"
            "\n5) 2D Channel Flow with Navier-Stokes"
-           "\n6) 2D Channel Flow Grid Refinement Study"
+           "\n6) 2D Lid-Driven Cavity Grid Refinement Study"
            "\nSelection... ");
     scanf("%d", &choice);
     getchar();

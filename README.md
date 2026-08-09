@@ -137,7 +137,7 @@ The program displays a solver menu:
 3) 2D Poisson Equation
 4) 2D Lid-Driven Cavity Flow with Navier-Stokes
 5) 2D Channel Flow with Navier-Stokes
-6) 2D Channel Flow Grid Refinement Study
+6) 2D Lid-Driven Cavity Flow Grid Refinement Study
 ```
 
 For 1D solvers, the program runs the simulation and writes the final result to:

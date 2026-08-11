@@ -139,13 +139,23 @@ elif solver_type == 'C':
         ax.set_aspect("equal")
 
 
+
+
+
+
+
     ani = FuncAnimation(
         fig,
         update,
         frames=len(p_files),
-        interval=100
+        interval=100,
     )
 
+    #saving last frame for GRS study photo
+    last_frame = len(p_files) - 1
+    update(last_frame)
+    ax.set_title(f"2D Lid-Driven Cavity Flow")
+    plt.savefig("lid_driven_cavity_final.png", dpi=300, bbox_inches="tight", )
     plt.show()
 
 elif solver_type == 'H':

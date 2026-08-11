@@ -89,23 +89,24 @@ $p=\frac{\ln\left|\dfrac{f_3 - f_2}{f_2 - f_1}\right|}{\ln(r)}$
 
 where $f_3$ is the coarse grid result, $f_2$ is the fine grid result, and $f_1$ is the fine grid result.
 
-### Current GRS Results
+### Lid-Driven Cavity Grid Refinement Study
 Using a shared time step value of 0.00025:
 
-| Grid Size | u(1.0,0.5) |
-|-----------|:----------:|
-| 41x41     | -0.117460  |
-| 81x81     | -0.117047  |
-| 161x161   | -0.116822  |
+| Grid Size | $u(1.0,0.5)$ |
+|-----------|:------------:|
+| 41x41     |  -0.117460   |
+| 81x81     |  -0.117047   |
+| 161x161   |  -0.116822   |
 
-The resulting refinement ratio is:
+Grid refinement ratio : $r = 2.00$
+
+The ratio of successive solution differences:
 ${\left|\dfrac{f_3 - f_2}{f_2 - f_1}\right|}{\approx1.836}$
 
-and therefore the observed order is approximately:
-$p\approx0.88$
+and therefore the observed order of convergence is:
+$p=\frac{\ln\left|1.836\right|}{\ln(2.00)} \approx0.88$
 
-Since the convection and time stepping component I used are 1st order accurate the observed order is reasonably close to the expected order.
-
+Because the convective discretization and time-stepping scheme are both first-order accurate, the observed order of $p \approx 0.88$ is reasonably close to the expected first-order behavior. The sampled velocity approaches a consistent value as the grid is refined, which is consistent with numerical convergence.
 
 ## Requirements
 

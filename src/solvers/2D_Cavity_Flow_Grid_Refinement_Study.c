@@ -41,6 +41,6 @@ void run2DCavityFlowGridRefinement()
     printf("\nRefinement ratio: %f",r);
     double ratio = fabs((f3 - f2) / (f2 - f1));
     double p = log(ratio) / log(r);
-    printf("\nObserved order: %.6f\n", p);
+    printf("\nObserved order of convergence: %.6f\n", p);
 
 }

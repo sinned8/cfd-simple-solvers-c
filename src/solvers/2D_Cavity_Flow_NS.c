@@ -27,11 +27,13 @@ double run2DCavityFlow(int nx, int ny,int nt, bool GRS)
     double dx2 = dx * dx;
     double dy2 = dy * dy;
 
-    //dt needs to change for grid refinement study (GRS) 181x181 since D would be > 1/2
+
     double rho = 1, nu = 0.1 , dt = 0.001 , max_change_val = 1;
     char solverType = 'C';
 
 
+    //changing delta t since we're halving each grid e.g. for 161x161 the diffusion coefficient terms would be too large
+    // 0.001/delta x^2 as delta x -> 0 the coefficient would blow up so 0.001 / 4 (because x^2 and were halving so 2^2=4) = 0.00025
     if (GRS)
     {
         dt = 0.00025;
@@ -52,8 +54,8 @@ double run2DCavityFlow(int nx, int ny,int nt, bool GRS)
 
 
 
-    //since dt would be different for last GRS nt does not represent the same amount of simulated time
-    //so instead we can loop until the velocity field stops changing significantly -> becomes "steady"
+
+    //For GRS  we can loop until the velocity field stops changing significantly -> becomes "steady"
     if (GRS)
     {
 
@@ -62,7 +64,7 @@ double run2DCavityFlow(int nx, int ny,int nt, bool GRS)
         double change_rate = max_change_val / dt;
 
         printf("\nnx = %d, dx = %f, dt = %f\n", nx, dx, dt);
-        //this loop then relies on max_change
+        //this loop then relies on max_change of the velocity
         while ((change_rate > 0.0001 || iteration < 2) && iteration < max_iterations)
         {
             copy_2d_array(u,un,ny,nx);
@@ -129,10 +131,11 @@ double run2DCavityFlow(int nx, int ny,int nt, bool GRS)
             }
             ++iteration;
         }
-        //write the value of u at x = 1 , y = 0.5 to Grid_Refinement_Study
+        //getting the points x = 1.0, y = 0.5
         int i = (ny - 1) / 4;
         int j = (nx - 1) / 2;
 
+        // setting f = u(1.0,0.5)
         double fval = u[i][j];
 
         free_2d_array(u,ny);
@@ -155,8 +158,6 @@ double run2DCavityFlow(int nx, int ny,int nt, bool GRS)
            b = bracketDiscretizedPressurePoisson(b,rho,dt,u,v,dx,dy,nx,ny);
            p = pressurePoisson(p,pn,b,dx,dy,nx,ny);
 
-           //velo is stored in un & vn so when max_change = max(|uij- unij|, |vij - vnij|) is very small
-           //flow is relatively "steady" ( <10^-6 or smth)
            for (int i=1; i<ny - 1; i++)
            {
                for (int j=1; j<nx - 1; j++)
@@ -196,7 +197,7 @@ double run2DCavityFlow(int nx, int ny,int nt, bool GRS)
                v[ny - 1][j] = 0.0;
            }
 
-           //disable this if were doing a GRS, so func needs another var to say were doing a GRS
+
            if (n % 20 == 0)
            {
                generate_2d_pressure_iteration_csv(p,ny,nx,frameNumber);
@@ -248,8 +249,7 @@ double **pressurePoisson(double **p, double ** pn,double ** b, const double dx, 
                          const int nx, const int ny)
 {
 
-    //solved iteratively, CD 5 point stencil , fixed number if iterations
-    //need to change this for GRS, or list as limitation. Finer grid may require more passes compared to coarse grid...
+
     double dx2 = dx * dx;
     double dy2 = dy * dy;
     const int max_iterations = 10000;
@@ -291,7 +291,7 @@ double **pressurePoisson(double **p, double ** pn,double ** b, const double dx, 
         {
             break;
         }
-        if (it == max_iterations)
+        if (it == max_iterations - 1)
         {
             printf("\nWarning: pressure did not converge.");
             printf("\nFinal pressure change: %.8e\n", pressure_change);
